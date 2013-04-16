@@ -30,37 +30,16 @@ class ProjectForm(forms.ModelForm):
             'name',
             'slug',
             'team',
+            'whiteboard_name',
+            'wiki_page',
         )
 
 
 class CreateProjectForm(ProjectForm):
     """Form for creating new projects."""
-    product = forms.CharField(
-        required=False,
-        widget=forms.TextInput(attrs={
-            'placeholder': 'Bugzilla Product/Component',
-        }),
-        help_text=('Select the "__ALL__" component '
-                   'to include the entire Product.'),
-    )
-
-    def clean_product(self):
-        prod = self.cleaned_data['product']
-        if prod and '/' not in prod:
-            raise ValidationError('Must be in the form "product/component"')
-        return prod
 
     def save(self, commit=True):
-        obj = super(CreateProjectForm, self).save(commit)
-        if commit:
-            self.add_product(obj)
-        return obj
-
-    def add_product(self, obj):
-        prod = self.cleaned_data['product']
-        if prod:
-            prod, comp = prod.split('/', 1)
-            obj.products.create(name=prod, component=comp, project=obj)
+        return super(CreateProjectForm, self).save(commit)
 
 
 class SprintForm(forms.ModelForm):

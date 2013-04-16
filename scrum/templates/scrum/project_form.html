@@ -21,28 +21,6 @@
       <a href="{% if project %}{{ project.get_absolute_url() }}{% else %}{{ url('scrum_projects_list') }}{% endif %}" class="btn">Cancel</a>
     </div>
   </form>
-  {% if project %}
-    <div id="bzproducts_container">
-      <h2 id="bzproducts">Bugzilla Products/Components</h2>
-      <div id="bzproducts_list_wrapper" data-url="{{ url('scrum_project_products', project.slug) }}">
-        {% with bzproducts=project.products.all() %}
-          {% include "scrum/bzproduct_list.html" %}
-        {% endwith %}
-      </div>
-      {% with bzproduct_form_url=url('scrum_project_products', project.slug) %}
-        {% include "scrum/bzproduct_form.html" %}
-      {% endwith %}
-      <div class="well">
-        Note: After adding a Bugzilla product and/or component, it
-        may take a few minutes for the Scrumbugs faeries to fetch
-        your data from Bugzilla, add the secret Scrumbugs ingredients,
-        shape them it into cookies, frost them, and bake them in the
-        Scrumbugs oven. When that's done, you should see the bugs that
-        are not resolved and that have some scrum data in the whiteboard
-        in your backlog.
-      </div>
-    </div>
-  {% endif %}
 {% endblock %}
 
 {% block js %}
@@ -52,5 +30,8 @@
   <script type="text/javascript">
     var bz_product_choices = {{ bz_product_choices|safe }};
     $("#id_product").typeahead({source: bz_product_choices, items: 10});
+    $('#id_name').on('keyup', function(){
+        $('#id_whiteboard_name').val($(this).val().replace(/\s+/g,'-').replace(/[^a-zA-Z0-9.\-]/g,'').toLowerCase());
+    });
   </script>
 {% endblock %}

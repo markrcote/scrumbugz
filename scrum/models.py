@@ -13,7 +13,7 @@ from operator import itemgetter
 
 from django.conf import settings
 from django.core.cache import cache
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, URLValidator
 from django.db import models, transaction
 from django.db.models.query_utils import Q
 from django.db.models.signals import pre_save, post_save
@@ -204,6 +204,9 @@ class Project(DBBugsMixin, BugsListMixin, models.Model):
     name = models.CharField(max_length=200)
     slug = models.CharField(max_length=50, validators=[validate_slug],
                             db_index=True, unique=True)
+    whiteboard_name = models.CharField(max_length=50, blank=True)
+    wiki_page = models.CharField(max_length=200, blank=True,
+                                 validators=[URLValidator])
     team = models.ForeignKey(Team, related_name='projects', null=True)
 
     _date_cached = None
