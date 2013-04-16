@@ -690,10 +690,9 @@ class Bug(models.Model):
 
     @property
     def has_scrum_data(self):
-        return bool('u=' in self.whiteboard or
-                    'c=' in self.whiteboard or
-                    'p=' in self.whiteboard or
-                    's=' in self.whiteboard)
+        return bool('p=' in self.whiteboard and
+                    'q=' in self.whiteboard and
+                    'm=' in self.whiteboard)
 
     @property
     def points_history(self):

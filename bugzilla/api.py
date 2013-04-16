@@ -168,7 +168,7 @@ class BugzillaAPI(xmlrpclib.ServerProxy):
         if open_only and 'status' not in kwargs:
             kwargs['status'] = BUG_OPEN_STATUSES
         if scrum_only and 'whiteboard' not in kwargs:
-            kwargs['whiteboard'] = ['u=', 'c=', 'p=']
+            kwargs['whiteboard'] = ['ateamtrack']
         log.debug('Searching bugs with kwargs: %s', kwargs)
         bugs = self.Bug.search(kwargs)
         return [bug['id'] for bug in bugs.get('bugs', [])]
@@ -189,7 +189,7 @@ class BugzillaAPI(xmlrpclib.ServerProxy):
             if open_only and 'status' not in kwargs:
                 kwargs['status'] = BUG_OPEN_STATUSES
             if scrum_only and 'whiteboard' not in kwargs:
-                kwargs['whiteboard'] = ['u=', 'c=', 'p=']
+                kwargs['whiteboard'] = ['ateamtrack']
             log.debug('Searching bugs with kwargs: %s', kwargs)
             bugs = self.Bug.search(kwargs)
 
